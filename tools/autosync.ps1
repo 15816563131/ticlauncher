@@ -1,4 +1,4 @@
-# tools/autosync.ps1
+﻿# tools/autosync.ps1
 # 电脑侧自动同步：拉取远端（手机上的改动）→ 提交本地改动 → 推送
 # 由 Windows 计划任务「TicLauncher AutoSync」每 10 分钟调用一次。
 # 日志写在与脚本同目录的 autosync.log。
