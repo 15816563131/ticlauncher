@@ -81,15 +81,19 @@ public class QuickPanelController {
             @Override
             public void onClick(View v) {
                 boolean on = !isAirplaneOn();
-                boolean ok = putGlobal(Settings.Global.AIRPLANE_MODE_ON, on ? 1 : 0);
-                if (ok) {
-                    Intent i = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-                    i.putExtra("state", on);
-                    mActivity.sendBroadcast(i);
-                } else {
+                // 只写系统设置即可生效：框架用 ContentObserver 监听 Settings.Global.AIRPLANE_MODE_ON。
+                // 不能再补发 ACTION_AIRPLANE_MODE_CHANGED —— 它是受保护广播，
+                // 普通应用发出去会抛 SecurityException 直接把应用打崩（实测）。
+                if (!putGlobal(Settings.Global.AIRPLANE_MODE_ON, on ? 1 : 0)) {
                     toast("飞行模式需要 WRITE_SECURE_SETTINGS");
                 }
-                refresh();
+                // 系统真正执行要几百毫秒，稍等一下再刷新图标
+                mToggleAirplane.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refresh();
+                    }
+                }, 700);
             }
         });
 

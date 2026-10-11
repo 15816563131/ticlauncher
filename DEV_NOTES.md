@@ -149,6 +149,46 @@ adb shell dumpsys activity activities | grep ResumedActivity
 （注意：`input keyevent 26` 是**切换**开关，做息屏/亮屏测试要用
 `KEYCODE_SLEEP` / `KEYCODE_WAKEUP`，否则会把测试结论搞反。）
 
+### 15. 应用层关不掉 Wi-Fi；飞行模式广播不能发
+
+**（1）关 Wi-Fi 会被系统的 Wear OS 策略层撤销。**
+`WifiManager.setWifiEnabled(false)` **是生效的**，日志里能看到 Wi-Fi 真的被关掉了：
+
+```
+WifiStateMachinePrime: Switching from ClientModeActiveState to WifiDisabled
+wifi driver unloaded / Wifi HAL stopped
+ConnectivityService: WIFI going from CONNECTED to DISCONNECTED
+```
+
+但约 **440ms** 后系统自己又把它拉回来：
+
+```
+D/WearWifiMediator: Wifi is OFF but mWifiDesired is TRUE. Updating state...
+D/WearWifiMediator: setWifiDecision: true; reason: ON_NETWORK_REQUEST
+D/WifiService: setWifiEnabled: true (package=android uid=1000)
+```
+
+`WearWifiMediator` 认为「手表必须有网络」，任何应用级的关闭都会被它撤销；
+把 `Settings.Global.WIFI_ON` 一起写也没用。
+**结论：只有飞行模式是它能认的机制。**
+
+**（2）`ACTION_AIRPLANE_MODE_CHANGED` 是受保护广播，普通应用发不了。**
+
+```
+SecurityException: Permission Denial: not allowed to send broadcast
+  android.intent.action.AIRPLANE_MODE from pid=…, uid=10060
+```
+
+只要写 `Settings.Global.AIRPLANE_MODE_ON` 就够了（框架用 ContentObserver 监听这个值，
+写进去几百毫秒后就会真正执行，实测生效）。
+控制中心的飞行模式开关原来在写完之后补发这个广播，**而且没有 try/catch，点一下直接崩**，已修。
+
+### 16. 用 adb 测「关 Wi-Fi」一定会把自己锁在门外
+
+手表是靠 Wi-Fi 连 adb 的，一旦真的关掉 Wi-Fi，adb 就断了，没法再把它开回来。
+测这类东西必须让**被测代码自己负责恢复**（例如把休眠窗口的结束时间设在 1~3 分钟后），
+否则只能人工去手表上把网络打开。
+
 ---
 
 ## 三、代码架构
@@ -237,6 +277,33 @@ settle 动画时长按距离自适应（140~320ms）；首尾到边界弹回，*
 
 另外：`HealthPanelView` 的步数回调做了「值没变就不重开 ValueAnimator」的判断，
 避免每走一步都新建两个动画。
+
+### 自动休眠（设置 → 电池 → 自动休眠）
+
+之前这个开关是**空壳**（只写偏好，全项目没人读）。现在由 `SleepModeReceiver` 负责：
+
+- 用 `AlarmManager.setExactAndAllowWhileIdle` 在「开始 / 结束」两个时刻各定一个精确闹钟，
+  平时不驻留进程、不轮询、不占唤醒锁；每次触发后自己续排下一个边界，形成闭环。
+- **开始**：切飞行模式断网（Wi-Fi / 蜂窝）→ 再把蓝牙补开回来，保住与手机的通知链路。
+- **结束**：关飞行模式，网络由系统自动恢复。
+- 触发点：桌面 `MainActivity.onCreate`（自愈，进程被杀/重启后重新排上）、
+  `PowerSaveActivity` 的开关与时间改动、以及闹钟自身。
+
+实测（`adb logcat -s SleepMode` + 端口轮询）：
+
+```
+20:15:00.034  sleep start: airplane on (network cut)
+20:15:01.237  bt -> true          ← 飞行模式连带关掉的蓝牙被补回来
+20:17:01.063  sleep end: airplane off (network restored)
+```
+
+| 时刻 | 手表 Wi-Fi 可达 |
+|---|---|
+| 20:14:54 | True |
+| 20:15:23 | **False**（休眠窗口内，网络已切断） |
+| 20:17:15 | True（窗口结束，自动恢复） |
+
+注意：休眠窗口内靠 Wi-Fi 连 adb 会断开，这是预期行为，到点会自动恢复。
 
 ---
 

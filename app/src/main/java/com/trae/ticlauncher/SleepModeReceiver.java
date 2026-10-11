@@ -250,14 +250,20 @@ public class SleepModeReceiver extends BroadcastReceiver {
         }
     }
 
-    /** 切飞行模式：写系统设置 + 广播，系统收到后才会真正执行。 */
+    /**
+     * 切飞行模式。
+     *
+     * 只写系统设置就够：框架里有 ContentObserver 监听
+     * {@code Settings.Global.AIRPLANE_MODE_ON}，写进去就会被执行（实测生效）。
+     *
+     * 不要再发 {@code ACTION_AIRPLANE_MODE_CHANGED}：它是受保护广播，
+     * 普通应用发送会抛 SecurityException（实测
+     * "Permission Denial: not allowed to send broadcast android.intent.action.AIRPLANE_MODE"）。
+     */
     private static void setAirplane(Context context, boolean on) {
         try {
             Settings.Global.putInt(context.getContentResolver(),
                     Settings.Global.AIRPLANE_MODE_ON, on ? 1 : 0);
-            Intent i = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-            i.putExtra("state", on);
-            context.sendBroadcast(i);
         } catch (Exception e) {
             Log.w(TAG, "setAirplane failed", e);
         }
