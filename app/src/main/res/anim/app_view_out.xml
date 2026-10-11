@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  官方 res/anim/applist_edit_dialog_out.xml：
+    interpolator = task_anim_interpolator = pathInterpolator(0.2, 0.2, 0.0, 1.0)
+    scale 1.0 → 0.9（250ms，中心缩放）+ alpha 1.0 → 0.0（250ms）
+-->
+<set
+    android:interpolator="@anim/task_anim_interpolator"
+    android:shareInterpolator="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <scale
+        android:duration="250"
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="0.9"
+        android:toYScale="0.9" />
+    <alpha
+        android:duration="250"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.0" />
+</set>

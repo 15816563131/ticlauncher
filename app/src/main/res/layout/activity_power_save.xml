@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ColorOS 手表：电池 / 省电模式（复刻 HeyPowerManager） -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF000000"
+    android:fillViewport="true"
+    android:clipToPadding="false"
+    android:paddingTop="18dp"
+    android:paddingBottom="22dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="电池"
+            android:textColor="#FFEDEDED"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <Space android:layout_width="match_parent" android:layout_height="12dp" />
+
+        <!-- 电量 -->
+        <TextView
+            android:id="@+id/ps_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="--%"
+            android:textColor="#FFFFFFFF"
+            android:textSize="54sp"
+            android:textStyle="bold"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <ProgressBar
+            android:id="@+id/ps_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/battery_progress" />
+
+        <TextView
+            android:id="@+id/ps_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:gravity="center"
+            android:text="预计可用 1 天"
+            android:textColor="#FF9A9A9A"
+            android:textSize="11sp"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <Space android:layout_width="match_parent" android:layout_height="16dp" />
+
+        <!-- 省电模式开关 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card_rounded">
+
+            <LinearLayout
+                android:id="@+id/ps_saver_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_icon_battery_saver"
+                    android:tint="#FF41D97A"
+                    android:contentDescription="@null" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="省电模式"
+                        android:textColor="#FFEDEDED"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/oplusans_watch" />
+                    <TextView
+                        android:id="@+id/ps_saver_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="已关闭"
+                        android:textColor="#FF888888"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/oplusans_watch" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/ps_switch"
+                    android:layout_width="44dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/switch_track"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <View
+                        android:id="@+id/ps_switch_thumb"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginStart="3dp"
+                        android:background="@drawable/switch_thumb" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Space android:layout_width="match_parent" android:layout_height="12dp" />
+
+        <!-- 自动休眠 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card_rounded">
+
+            <LinearLayout
+                android:id="@+id/ps_sleep_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_bed_time"
+                    android:tint="#FF66AAEA"
+                    android:contentDescription="@null" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="自动休眠"
+                        android:textColor="#FFEDEDED"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/oplusans_watch" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="睡眠或离腕 30 分钟后休眠"
+                        android:textColor="#FF888888"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/oplusans_watch" />
+                </LinearLayout>
+                <FrameLayout
+                    android:id="@+id/ps_sleep_switch"
+                    android:layout_width="44dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/switch_track"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <View
+                        android:id="@+id/ps_sleep_thumb"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginStart="3dp"
+                        android:background="@drawable/switch_thumb" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="48dp"
+                android:background="#1AFFFFFF" />
+
+            <LinearLayout
+                android:id="@+id/ps_start_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="32dp"
+                    android:text="开始时间"
+                    android:textColor="#FFEDEDED"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/oplusans_watch" />
+                <TextView
+                    android:id="@+id/ps_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="22:00"
+                    android:textColor="#FF9A9A9A"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/oplusans_watch" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="48dp"
+                android:background="#1AFFFFFF" />
+
+            <LinearLayout
+                android:id="@+id/ps_end_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="32dp"
+                    android:text="结束时间"
+                    android:textColor="#FFEDEDED"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/oplusans_watch" />
+                <TextView
+                    android:id="@+id/ps_end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="07:00"
+                    android:textColor="#FF9A9A9A"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/oplusans_watch" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Space android:layout_width="match_parent" android:layout_height="12dp" />
+
+        <!-- 轻智能模式 -->
+        <LinearLayout
+            android:id="@+id/ps_smart_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:background="@drawable/bg_card_rounded"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/default_quickactions_ic_batterysaver"
+                android:tint="#FFFFFE7C"
+                android:contentDescription="@null" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="轻智能模式"
+                    android:textColor="#FFEDEDED"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/oplusans_watch" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="仅保留时间/步数/心率，续航可达数天"
+                    android:textColor="#FF888888"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/oplusans_watch" />
+            </LinearLayout>
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@android:drawable/ic_media_next"
+                android:alpha="0.45"
+                android:contentDescription="@null" />
+        </LinearLayout>
+
+        <Space android:layout_width="match_parent" android:layout_height="12dp" />
+
+        <!-- 电池用量 -->
+        <LinearLayout
+            android:id="@+id/ps_usage_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:background="@drawable/bg_card_rounded"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_menu_sort_by_size"
+                android:tint="#FFED5844"
+                android:contentDescription="@null" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:text="电池用量"
+                android:textColor="#FFEDEDED"
+                android:textSize="13sp"
+                android:fontFamily="@font/oplusans_watch" />
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@android:drawable/ic_media_next"
+                android:alpha="0.45"
+                android:contentDescription="@null" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 取自 HeySports res/drawable/selector_main_item_bg.xml（运动列表项底：深灰胶囊） -->
+<shape android:shape="rectangle"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#ff202124" />
+    <corners android:radius="52dp" />
+</shape>

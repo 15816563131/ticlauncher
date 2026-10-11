@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ColorOS 手表：心率记录/统计页（复刻 HeyHeartRate）
+
+  结构与尺寸逐条对照官方：
+    res/layout/layout_heart_content.xml        标题「心率」+ 统计块 + 底部按钮，paddingBottom=60dp
+    res/layout/layout_heart_rate_statistics.xml 统计块（marginHorizontal=20dp）
+    res/layout/heart_rate_value_view.xml        当前值行：ic_record(24dp) + 数值(textData60=30sp) + 单位(textTitle3=16sp)
+    res/layout/layout_daily_hr.xml              HrItemView 内部结构：名称(textTitle3=16sp) + 数值(textData48=24sp) + 单位
+    res/layout/layout_heart_button.xml          底部「了解心率」按钮（WearChipButton）
+
+  尺寸取自官方 dimens：hr_item_top_4/20/28/60、hr_statics_iv_width_dp17=24dp
+  配色取自官方 colors：hr_tip_text_color=#ffb0b5bf、white_ff=#ffffffff、heytap_wear_material_colorSurface=#ff202124
+  文案取自官方 values-zh-rCN/strings.xml：心率 / 次/分 / 正在测量 / 心率范围 / 静息心率 /
+
+  步行平均心率 / 睡眠基准心率 / 了解心率
+  素材 100% 取自解包后的 HeyHeartRate APK，无任何自绘。
+  官方原页顶部另有 HeartRateChart 折线图（Canvas 自绘），按「禁止绘制」原则此处留空，其余全部还原。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff000000">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="60dp">
+
+            <!-- 标题：textTitleMain（minHeight 48dp，居中） -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:gravity="center"
+                android:text="心率"
+                android:textColor="#ffffffff"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/oplusans_watch" />
+
+            <!-- 心率折线图：官方 HeartRateChart，高度 hr_statics_chart_height_dp121=97dp，marginTop 6dp -->
+            <com.trae.ticlauncher.HsHrChartView
+                android:id="@+id/hr_chart"
+                android:layout_width="match_parent"
+                android:layout_height="97dp"
+                android:layout_marginTop="6dp" />
+
+            <!-- 当前心率：ic_record + 30sp 数值 + 单位 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/hs_hr_ic_record"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:id="@+id/hr_cur_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:includeFontPadding="false"
+                    android:text="--"
+                    android:textColor="#ffffffff"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/oplusans_watch" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:includeFontPadding="false"
+                    android:text="次/分"
+                    android:textColor="#ffffffff"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/oplusans_watch" />
+            </LinearLayout>
+
+            <!-- 测量状态（textBody2=14sp） -->
+            <TextView
+                android:id="@+id/hr_cur_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:includeFontPadding="false"
+                android:text="正在测量"
+                android:textColor="#ffb0b5bf"
+                android:textSize="14sp"
+                android:fontFamily="@font/oplusans_watch" />
+
+            <!-- 心率范围（HrItemView） -->
+            <LinearLayout
+                android:id="@+id/hr_range"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="心率范围"
+                    android:textColor="#ffb0b5bf"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/oplusans_watch" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/hr_range_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:text="--"
+                        android:textColor="#ffffffff"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/oplusans_watch" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:includeFontPadding="false"
+                        android:text="次/分"
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/oplusans_watch" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 静息心率（HrItemView） -->
+            <LinearLayout
+                android:id="@+id/hr_rest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="静息心率"
+                    android:textColor="#ffb0b5bf"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/oplusans_watch" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/hr_rest_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:text="--"
+                        android:textColor="#ffffffff"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/oplusans_watch" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:includeFontPadding="false"
+                        android:text="次/分"
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/oplusans_watch" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 步行平均心率（HrItemView，官方默认 gone） -->
+            <LinearLayout
+                android:id="@+id/hr_walk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="步行平均心率"
+                    android:textColor="#ffb0b5bf"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/oplusans_watch" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/hr_walk_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:text="--"
+                        android:textColor="#ffffffff"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/oplusans_watch" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:includeFontPadding="false"
+                        android:text="次/分"
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/oplusans_watch" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 睡眠基准心率（HrItemView） -->
+            <LinearLayout
+                android:id="@+id/hr_sleep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="睡眠基准心率"
+                    android:textColor="#ffb0b5bf"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/oplusans_watch" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/hr_sleep_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:text="--"
+                        android:textColor="#ffffffff"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/oplusans_watch" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:includeFontPadding="false"
+                        android:text="次/分"
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/oplusans_watch" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 底部「了解心率」按钮（WearChipButton：minHeight 52dp，radius 26dp，#ff202124） -->
+            <TextView
+                android:id="@+id/btn_hr_know_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:minHeight="52dp"
+                android:gravity="center"
+                android:background="@drawable/hs_hr_know_more_bg"
+                android:text="了解心率"
+                android:textColor="#ffffffff"
+                android:textSize="16sp"
+                android:fontFamily="@font/oplusans_watch" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 返回 -->
+    <ImageView
+        android:id="@+id/hr_rec_back"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:src="@android:drawable/ic_media_previous"
+        android:contentDescription="@null"
+        android:alpha="0.8" />
+</FrameLayout>

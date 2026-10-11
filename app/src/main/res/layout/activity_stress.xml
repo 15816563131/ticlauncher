@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ColorOS 手表：压力（复刻 HeyStress） -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FF000000"
+    android:paddingTop="20dp"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="压力"
+        android:textColor="#FF9A9A9A"
+        android:textSize="12sp"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <TextView
+        android:id="@+id/st_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="--"
+        android:textColor="#FFFFFFFF"
+        android:textSize="64sp"
+        android:textStyle="bold"
+        android:includeFontPadding="false"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <TextView
+        android:id="@+id/st_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点击测量"
+        android:textColor="#FF9A9A9A"
+        android:textSize="14sp"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <!-- 等级条 -->
+    <FrameLayout
+        android:layout_width="150dp"
+        android:layout_height="6dp"
+        android:layout_marginTop="16dp"
+        android:background="#FF2A2A2A">
+
+        <View
+            android:id="@+id/st_bar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="#FF41D97A" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/st_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="放松身心，压力值会更低"
+        android:textColor="#FF555555"
+        android:textSize="10sp"
+        android:fontFamily="@font/oplusans_watch" />
+</LinearLayout>

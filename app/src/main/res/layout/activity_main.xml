@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  启动器主窗口，层序（自下而上）：
+    home_screen —— 表盘首页（亮屏即见）
+    list_screen —— 应用列表（按 Home / 皇冠键进入）
+    quick_blur  —— 下拉控制中心的毛玻璃层（随覆盖比例淡入）
+    quick_panel —— 控制中心面板（跟手下滑，底部对齐手指）
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <include
+        android:id="@+id/home_screen"
+        layout="@layout/screen_home" />
+
+    <include
+        android:id="@+id/list_screen"
+        layout="@layout/screen_applist"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/quick_blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:scaleType="fitXY"
+        android:contentDescription="@null" />
+
+    <FrameLayout
+        android:id="@+id/quick_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/panel_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <include layout="@layout/activity_quick" />
+    </FrameLayout>
+</FrameLayout>

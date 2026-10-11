@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ColorOS 手表：轻智能模式（超低功耗，仅时间/步数/电量） -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sm_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF000000"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- 顶部：电量 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="6dp">
+            <ImageView
+                android:id="@+id/sm_battery_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_battery_100"
+                android:contentDescription="@null" />
+            <TextView
+                android:id="@+id/sm_battery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="--%"
+                android:textColor="#FF9A9A9A"
+                android:textSize="12sp"
+                android:fontFamily="@font/oplusans_watch" />
+        </LinearLayout>
+
+        <!-- 时间 -->
+        <TextView
+            android:id="@+id/sm_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textColor="#FFEDEDED"
+            android:textSize="76sp"
+            android:textStyle="bold"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <!-- 日期 -->
+        <TextView
+            android:id="@+id/sm_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="1月1日 周一"
+            android:textColor="#FF9A9A9A"
+            android:textSize="13sp"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <!-- 步数 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_app_daily"
+                android:tint="#FF9A9A9A"
+                android:contentDescription="@null" />
+            <TextView
+                android:id="@+id/sm_steps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="0 步"
+                android:textColor="#FF9A9A9A"
+                android:textSize="12sp"
+                android:fontFamily="@font/oplusans_watch" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 退出提示 -->
+    <TextView
+        android:id="@+id/sm_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="14dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@drawable/bg_card_rounded"
+        android:text="点击退出轻智能模式"
+        android:textColor="#FF6A6A6A"
+        android:textSize="10sp"
+        android:fontFamily="@font/oplusans_watch" />
+</FrameLayout>

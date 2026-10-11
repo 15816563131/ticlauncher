@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ColorOS 手表：表盘应用（复刻 WatchFaceAlbum 风格，网格预览） -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FF000000">
+
+    <!-- 标题栏 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:text="表盘"
+        android:textColor="#FFEDEDED"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <!-- 表盘网格 -->
+    <GridView
+        android:id="@+id/face_grid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:numColumns="2"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="22dp"
+        android:clipToPadding="false"
+        android:listSelector="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/face_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="30dp"
+        android:text="未检测到动态表盘"
+        android:textColor="#FF555555"
+        android:textSize="11sp"
+        android:fontFamily="@font/oplusans_watch"
+        android:visibility="gone" />
+</LinearLayout>

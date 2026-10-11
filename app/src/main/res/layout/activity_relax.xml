@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ColorOS 手表：呼吸放松（复刻 HeyRelax） -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FF000000"
+    android:paddingTop="20dp"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="呼吸放松"
+        android:textColor="#FFEDEDED"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <!-- 呼吸圆 -->
+    <FrameLayout
+        android:id="@+id/rl_circle_box"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="8dp">
+
+        <View
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+            android:background="@drawable/relax_ring" />
+
+        <View
+            android:id="@+id/rl_circle"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:background="@drawable/relax_circle" />
+
+        <TextView
+            android:id="@+id/rl_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="准备"
+            android:textColor="#FFFFFFFF"
+            android:textSize="17sp"
+            android:fontFamily="@font/oplusans_watch" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/rl_remain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="选择时长后开始"
+        android:textColor="#FF9A9A9A"
+        android:textSize="12sp"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <!-- 时长选择 -->
+    <LinearLayout
+        android:id="@+id/rl_durations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/rl_d1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:background="@drawable/bg_card_rounded"
+            android:text="1 分钟"
+            android:textColor="#FF9A9A9A"
+            android:textSize="11sp"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <TextView
+            android:id="@+id/rl_d2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:background="@drawable/bg_card_rounded"
+            android:text="2 分钟"
+            android:textColor="#FF9A9A9A"
+            android:textSize="11sp"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <TextView
+            android:id="@+id/rl_d3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:background="@drawable/bg_card_rounded"
+            android:text="3 分钟"
+            android:textColor="#FF9A9A9A"
+            android:textSize="11sp"
+            android:fontFamily="@font/oplusans_watch" />
+    </LinearLayout>
+
+    <!-- 开始 / 停止 -->
+    <TextView
+        android:id="@+id/rl_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/row_bg"
+        android:text="开始"
+        android:textColor="#FFFE7C48"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/oplusans_watch" />
+</LinearLayout>

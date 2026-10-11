@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ColorOS 手表：血氧应用主界面 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp"
+    android:background="#FF000000">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp">
+        <ImageView
+            android:id="@+id/ox_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="start|center_vertical"
+            android:src="@android:drawable/ic_media_previous"
+            android:contentDescription="@null"
+            android:alpha="0.8" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="血氧"
+            android:textColor="#FFEDEDED"
+            android:textSize="13sp"
+            android:fontFamily="@font/oplusans_watch" />
+    </FrameLayout>
+
+    <Space android:layout_width="match_parent" android:layout_height="24dp" />
+
+    <!-- 中央大数值 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/ox_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textColor="#FFFFFFFF"
+            android:textSize="96sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/oplusans_watch"
+            android:includeFontPadding="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="24dp"
+            android:text="%"
+            android:textColor="#FF9A9A9A"
+            android:textSize="28sp"
+            android:fontFamily="@font/oplusans_watch" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ox_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点击开始测量"
+        android:textColor="#FF555555"
+        android:textSize="11sp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <Space android:layout_width="match_parent" android:layout_height="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="正常范围 95% ~ 100%"
+        android:textColor="#FF555555"
+        android:textSize="10sp"
+        android:fontFamily="@font/oplusans_watch" />
+</LinearLayout>

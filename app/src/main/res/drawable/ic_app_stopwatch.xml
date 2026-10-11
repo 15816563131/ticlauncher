@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="112dp" android:width="112dp" android:viewportWidth="112.0" android:viewportHeight="112.0">
+  <group>
+    <path android:fillColor="@drawable/ic_app_stopwatch_g0" android:pathData="M63.08,23C64.25,23 64.83,23 65.28,23.23C65.67,23.43 65.99,23.75 66.19,24.14C66.42,24.58 66.42,25.17 66.42,26.33L66.42,26.61C66.42,27.78 66.42,28.36 66.19,28.81C65.99,29.2 65.67,29.52 65.28,29.72C64.83,29.94 64.25,29.94 63.08,29.94L48.92,29.94C47.75,29.94 47.17,29.94 46.72,29.72C46.33,29.52 46.01,29.2 45.81,28.81C45.58,28.36 45.58,27.78 45.58,26.61L45.58,26.33C45.58,25.17 45.58,24.58 45.81,24.14C46.01,23.75 46.33,23.43 46.72,23.23C47.17,23 47.75,23 48.92,23L63.08,23Z" android:fillAlpha="0.8500000238418579">
+    </path>
+    <path android:fillColor="@drawable/ic_app_stopwatch_g1" android:pathData="M56,89.25C40.51,89.25 27.95,76.69 27.95,61.19C27.95,45.7 40.51,33.14 56,33.14C71.5,33.14 84.06,45.7 84.06,61.19C84.06,76.69 71.5,89.25 56,89.25ZM56,44.67C54.39,44.67 53.08,45.97 53.08,47.58V61.19C53.08,62.8 54.39,64.11 56,64.11C57.61,64.11 58.92,62.8 58.92,61.19V47.58C58.92,45.97 57.61,44.67 56,44.67Z" android:fillType="evenOdd">
+    </path>
+  </group>
+</vector>

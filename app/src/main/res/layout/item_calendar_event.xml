@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 日程条目 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="8dp"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:background="@drawable/bg_card_rounded">
+
+    <View
+        android:id="@+id/ev_bar"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:background="#FFFE7C48" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ev_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFEDEDED"
+            android:textSize="13sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <TextView
+            android:id="@+id/ev_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#FF9A9A9A"
+            android:textSize="11sp"
+            android:fontFamily="@font/oplusans_watch" />
+    </LinearLayout>
+</LinearLayout>

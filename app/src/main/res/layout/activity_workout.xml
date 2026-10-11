@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ColorOS 手表：运动记录（复刻 HeySports） -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF000000">
+
+    <!-- 运动类型选择 -->
+    <LinearLayout
+        android:id="@+id/wk_chooser"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:text="运动"
+            android:textColor="#FFEDEDED"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <GridView
+            android:id="@+id/wk_grid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:numColumns="2"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="22dp"
+            android:clipToPadding="false"
+            android:listSelector="@android:color/transparent" />
+    </LinearLayout>
+
+    <!-- 运动中 -->
+    <LinearLayout
+        android:id="@+id/wk_session"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/wk_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="户外跑步"
+            android:textColor="#FF9CFF1F"
+            android:textSize="14sp"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <TextView
+            android:id="@+id/wk_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="00:00"
+            android:textColor="#FFFFFFFF"
+            android:textSize="56sp"
+            android:textStyle="bold"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/wk_hr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="#FFED5844"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/oplusans_watch" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="心率"
+                    android:textColor="#FF9A9A9A"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/oplusans_watch" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/wk_kcal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#FFFFFE7C"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/oplusans_watch" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="千卡"
+                    android:textColor="#FF9A9A9A"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/oplusans_watch" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/wk_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:paddingStart="34dp"
+            android:paddingEnd="34dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:background="@drawable/row_bg"
+            android:text="结束"
+            android:textColor="#FFED5844"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/oplusans_watch" />
+    </LinearLayout>
+</FrameLayout>

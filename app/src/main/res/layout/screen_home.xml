@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 表盘首页：左右可滑三页 —— 负一屏（健康） / 表盘主页 / 卡片页 -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:clickable="true"
+    android:focusable="true">
+
+    <com.trae.ticlauncher.HomePager
+        android:id="@+id/home_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.trae.ticlauncher.HealthPanelView
+            android:id="@+id/health_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.trae.ticlauncher.WatchFaceView
+            android:id="@+id/watch_face"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.trae.ticlauncher.CardPanelView
+            android:id="@+id/card_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.trae.ticlauncher.HomePager>
+</FrameLayout>

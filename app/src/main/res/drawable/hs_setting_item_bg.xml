@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  官方 ClockworkSettings res/drawable/heytap_common_background.xml 的等价还原：
+    ripple（按下水波纹）+ 圆角 26dp + 填充 #ff202124
+  对应官方样式 HeyTapMainListItemStyle（minHeight 52dp、paddingHorizontal 14dp）。
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#33ffffff">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="26dp" />
+            <solid android:color="#ff202124" />
+        </shape>
+    </item>
+</ripple>

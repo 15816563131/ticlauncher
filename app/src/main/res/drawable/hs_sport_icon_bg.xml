@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 取自 HeySports res/drawable/shape_sport_icon_bg.xml（运动类型图标底：亮绿圆） -->
+<shape android:shape="oval"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <size android:height="37dp" android:width="37dp" />
+    <solid android:color="#ff8dd632" />
+</shape>

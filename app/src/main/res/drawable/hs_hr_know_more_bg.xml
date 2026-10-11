@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  官方 WearChipButtonDefault 背景 = res/drawable/wear_chip_button_background_solid.xml：
+    corners radius = wear_button_corner_radius(26dp)
+    solid color   = ?colorSurface = colorSurface = #ff202124
+  这里用官方同一组数值还原为等价的 shape，供记录页「了解心率」按钮使用。
+-->
+<shape android:shape="rectangle"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="26dp" />
+    <solid android:color="#ff202124" />
+</shape>

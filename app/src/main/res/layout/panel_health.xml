@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ColorOS 风格负一屏：健康卡片 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="18dp"
+    android:paddingTop="28dp"
+    android:paddingRight="18dp"
+    android:paddingBottom="28dp"
+    android:gravity="center_horizontal"
+    android:background="#FF000000">
+
+    <!-- 顶部标题 -->
+    <TextView
+        android:id="@+id/health_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:text="健康"
+        android:textColor="#FFEDEDED"
+        android:textSize="13sp"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <Space android:layout_width="match_parent" android:layout_height="8dp" />
+
+    <!-- 步数卡片 -->
+    <LinearLayout
+        android:id="@+id/card_steps"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
+        android:background="@drawable/bg_card_rounded">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_app_sports"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="步数"
+            android:textColor="#FF9A9A9A"
+            android:textSize="11sp"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <TextView
+            android:id="@+id/val_steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textColor="#FFEDEDED"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="步"
+            android:textColor="#FF9A9A9A"
+            android:textSize="10sp"
+            android:fontFamily="@font/oplusans_watch" />
+    </LinearLayout>
+
+    <!-- 步数进度条 -->
+    <ProgressBar
+        android:id="@+id/prog_steps"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="5dp"
+        android:max="100"
+        android:progressDrawable="@drawable/progress_fill"
+        android:indeterminateDrawable="@null"
+        android:background="@drawable/progress_track" />
+
+    <Space android:layout_width="match_parent" android:layout_height="6dp" />
+
+    <!-- 心率卡片 -->
+    <LinearLayout
+        android:id="@+id/card_heart"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
+        android:background="@drawable/bg_card_rounded">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_app_heartrate"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="心率"
+            android:textColor="#FF9A9A9A"
+            android:textSize="11sp"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <TextView
+            android:id="@+id/val_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textColor="#FFEDEDED"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="次/分"
+            android:textColor="#FF9A9A9A"
+            android:textSize="10sp"
+            android:fontFamily="@font/oplusans_watch" />
+    </LinearLayout>
+
+    <Space android:layout_width="match_parent" android:layout_height="6dp" />
+
+    <!-- 睡眠/消耗卡片 -->
+    <LinearLayout
+        android:id="@+id/card_calorie"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
+        android:background="@drawable/bg_card_rounded">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_app_daily"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="消耗"
+            android:textColor="#FF9A9A9A"
+            android:textSize="11sp"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <TextView
+            android:id="@+id/val_calorie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textColor="#FFEDEDED"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="千卡"
+            android:textColor="#FF9A9A9A"
+            android:textSize="10sp"
+            android:fontFamily="@font/oplusans_watch" />
+    </LinearLayout>
+</LinearLayout>

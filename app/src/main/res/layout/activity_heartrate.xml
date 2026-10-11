@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ColorOS 手表：心率（复刻 HeyHeartRate）
+
+  素材全部取自解包后的 HeyHeartRate APK，不使用任何其他来源：
+    hs_heart   ← res/drawable-xhdpi/heart_0.webp   官方心跳动画首帧
+  文案同样取自 HeyHeartRate res/values-zh-rCN/strings.xml：
+    心率 / 正在测量 / 次/分
+  布局结构参照官方 fragment_hr_measure.xml：标题 + 心形图（数值叠加其中心）+ 单位 + 状态。
+  页面不做任何自绘。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp">
+
+        <!-- 标题 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="心率"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <!-- 心形 + 心率数值（数值叠加在心形中心，与官方一致） -->
+        <FrameLayout
+            android:id="@+id/hr_heart_box"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="4dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/hr_heart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/hs_heart"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:id="@+id/hr_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="--"
+                android:textColor="#ffffffff"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/oplusans_watch" />
+        </FrameLayout>
+
+        <!-- 单位 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="次/分"
+            android:textColor="#ff9a9a9a"
+            android:textSize="10sp"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <!-- 状态 -->
+        <TextView
+            android:id="@+id/hr_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击测量"
+            android:textColor="#ffffffff"
+            android:textSize="11sp"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/oplusans_watch" />
+    </LinearLayout>
+
+    <!-- 返回 -->
+    <ImageView
+        android:id="@+id/hr_back"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:src="@android:drawable/ic_media_previous"
+        android:contentDescription="@null"
+        android:alpha="0.8" />
+</FrameLayout>

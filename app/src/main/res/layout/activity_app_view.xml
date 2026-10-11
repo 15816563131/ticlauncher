@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ColorOS 手表：「应用视图」弹窗（复刻官方 res/layout/dialog_applist_edit.xml）
+
+  官方尺寸为 466px 屏 px 值，本机 400px/228.6dp 与官方 466px/228.4dp 的 dp 宽度一致，
+  故按 px ÷ 2.04 换算为 dp 复用：
+    标题 textSize 34px=17sp、height 96px=47dp、marginTop 28px=14dp
+    「选择视图」height 57px=28dp、marginTop 28px=14dp
+    选项行 height 120px=59dp、paddingH 24px=12dp、图标 48px=24dp
+    内容区 paddingBottom 116px=57dp
+  文案取自官方 values-zh-rCN/strings.xml：
+    应用视图 / 选择视图 / 行星视图 / 宫格视图 / 列表视图
+  素材取自官方同 APK：applist_honeycomb_style / applist_lattice_style / applist_vertical_style
+  弹窗进出动画见 res/anim/app_view_in.xml、app_view_out.xml（与官方 200ms/250ms 一致）。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/app_view_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff000000">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingBottom="57dp">
+
+            <!-- 标题：应用视图 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:text="应用视图"
+                android:textColor="#ffffffff"
+                android:textSize="17sp"
+                android:fontFamily="@font/oplusans_watch" />
+
+            <!-- 选择视图 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:text="选择视图"
+                android:textColor="#ffffffff"
+                android:textSize="17sp"
+                android:fontFamily="@font/oplusans_watch" />
+
+            <!-- 行星视图 -->
+            <LinearLayout
+                android:id="@+id/opt_honeycomb"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:background="@drawable/hs_hey_base_item_bg"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/applist_honeycomb_style"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:text="行星视图"
+                    android:textColor="#ffffffff"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/oplusans_watch" />
+
+                <ImageView
+                    android:id="@+id/radio_honeycomb"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/hs_radio_on"
+                    android:contentDescription="@null" />
+            </LinearLayout>
+
+            <!-- 宫格视图 -->
+            <LinearLayout
+                android:id="@+id/opt_lattice"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:background="@drawable/hs_hey_base_item_bg"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/applist_lattice_style"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:text="宫格视图"
+                    android:textColor="#ffffffff"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/oplusans_watch" />
+
+                <ImageView
+                    android:id="@+id/radio_lattice"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/hs_radio_off"
+                    android:contentDescription="@null" />
+            </LinearLayout>
+
+            <!-- 列表视图 -->
+            <LinearLayout
+                android:id="@+id/opt_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:background="@drawable/hs_hey_base_item_bg"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/applist_vertical_style"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:text="列表视图"
+                    android:textColor="#ffffffff"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/oplusans_watch" />
+
+                <ImageView
+                    android:id="@+id/radio_vertical"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/hs_radio_off"
+                    android:contentDescription="@null" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

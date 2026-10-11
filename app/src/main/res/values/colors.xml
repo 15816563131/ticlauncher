@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 配色取自 OPPO 表盘 config.json 的 mEditColors 调色板 -->
+    <color name="bg">#FF000000</color>
+    <color name="accent">#FFFE7C48</color>
+    <color name="accent_alt">#FF66AAEA</color>
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_dim">#FF99A7CA</color>
+    <color name="item_bg">#FF141414</color>
+    <color name="item_bg_pressed">#FF2A2A2A</color>
+    <!-- 快捷开关 -->
+    <color name="toggle_on_bg">#33FE7C48</color>
+    <color name="toggle_on_icon">#FFFE7C48</color>
+    <color name="toggle_off_bg">#FF1A1A1A</color>
+    <color name="toggle_off_icon">#FF99A7CA</color>
+    <color name="divider">#22FFFFFF</color>
+    <!-- 弹层 -->
+    <color name="menu_scrim">#E6000000</color>
+    <color name="menu_item_bg">#FF1C1C1C</color>
+    <color name="menu_item_pressed">#FF333333</color>
+    <!-- 下拉控制中心面板（半透明，露出下层毛玻璃） -->
+    <color name="panel_bg">#D909090D</color>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="112dp" android:width="112dp" android:viewportWidth="112.0" android:viewportHeight="112.0">
+  <group>
+    <path android:fillColor="@drawable/ic_app_countdown_g0" android:pathData="M57.83,54.86C57.36,54.35 56.69,54.06 56,54.06C55.31,54.06 54.65,54.35 54.17,54.86L32.3,78.29C31.62,79.02 31.44,80.08 31.83,80.99C32.23,81.91 33.13,82.5 34.13,82.5H77.88C78.87,82.5 79.77,81.91 80.17,80.99C80.57,80.08 80.38,79.02 79.7,78.29L57.83,54.86Z" android:fillType="evenOdd">
+    </path>
+    <path android:fillColor="#00000000" android:pathData="M56,56.56L77.88,33.13H34.13L56,56.56Z" android:strokeColor="@drawable/ic_app_countdown_g1" android:strokeWidth="6.25" android:strokeLineJoin="round">
+    </path>
+  </group>
+</vector>

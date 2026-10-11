@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ColorOS 手表：日历 / 日程 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FF000000"
+    android:paddingTop="18dp">
+
+    <TextView
+        android:id="@+id/cal_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="今天"
+        android:textColor="#FFEDEDED"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <TextView
+        android:id="@+id/cal_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="今天没有日程"
+        android:textColor="#FF555555"
+        android:textSize="12sp"
+        android:fontFamily="@font/oplusans_watch"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/cal_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="20dp"
+        android:clipToPadding="false" />
+</LinearLayout>

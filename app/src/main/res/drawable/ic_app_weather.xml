@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="112dp" android:width="112dp" android:viewportWidth="112.0" android:viewportHeight="112.0">
+  <group>
+    <clip-path android:pathData="M0,0h112v112h-112z">
+    </clip-path>
+    <group>
+      <path android:fillColor="@drawable/ic_app_weather_g0" android:pathData="M89.33,47.78C89.33,58.31 80.83,66.84 70.34,66.84C59.86,66.84 51.36,58.31 51.36,47.78C51.36,37.26 59.86,28.72 70.34,28.72C80.75,28.64 89.33,37.26 89.33,47.78Z">
+      </path>
+      <path android:fillColor="@drawable/ic_app_weather_g1" android:pathData="M81.52,47.63C81.52,53.6 76.69,58.44 70.72,58.44C64.75,58.44 59.91,53.6 59.91,47.63C59.91,41.66 64.75,36.83 70.72,36.83C76.64,36.78 81.52,41.66 81.52,47.63Z" android:fillAlpha="0.8999999761581421">
+      </path>
+      <path android:fillColor="@drawable/ic_app_weather_g2" android:pathData="M89.33,47.33C89.33,57.86 80.83,66.39 70.34,66.39C59.86,66.39 51.36,57.86 51.36,47.33C51.36,36.81 59.86,28.27 70.34,28.27C80.75,28.19 89.33,36.81 89.33,47.33Z">
+      </path>
+      <path android:fillColor="@drawable/ic_app_weather_g3" android:pathData="M87.5,66.69C87.11,58.9 80.51,52.95 72.8,52.95H69.27C68.29,52.95 67.51,52.23 67.51,51.25C66.92,41.51 58.88,33.79 49.08,33.79C40.39,33.79 33.14,39.81 31.18,47.98C31.05,48.51 30.65,48.96 30.07,49.09C23.14,51.12 18.04,57.6 18.04,65.25C18.04,72.57 22.94,78.46 29.28,81.53C36.6,85.06 45.62,84.93 53.59,84.93C65.74,84.93 88.42,84.15 87.5,66.69Z">
+      </path>
+    </group>
+  </group>
+</vector>

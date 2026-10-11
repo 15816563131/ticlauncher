@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ColorOS 手表：指南针（复刻 HeyCompass） -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingTop="22dp"
+    android:paddingBottom="16dp"
+    android:background="#FF000000">
+
+    <TextView
+        android:id="@+id/c_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF9A9A9A"
+        android:textSize="12sp"
+        android:fontFamily="@font/oplusans_watch"
+        android:text="指南针" />
+
+    <Space android:layout_width="match_parent" android:layout_height="8dp" />
+
+    <!-- 罗盘 -->
+    <FrameLayout
+        android:layout_width="180dp"
+        android:layout_height="180dp">
+
+        <!-- 外环：度数 -->
+        <ImageView
+            android:id="@+id/c_dial"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/c_compass_dial"
+            android:contentDescription="@null"
+            android:scaleType="fitCenter" />
+
+        <!-- 指针 -->
+        <ImageView
+            android:id="@+id/c_needle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/c_compass_needle"
+            android:contentDescription="@null"
+            android:scaleType="fitCenter" />
+    </FrameLayout>
+
+    <Space android:layout_width="match_parent" android:layout_height="12dp" />
+
+    <!-- 大方位角 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="top">
+        <TextView
+            android:id="@+id/c_deg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#FFFFFFFF"
+            android:textSize="56sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/oplusans_watch"
+            android:includeFontPadding="false" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="°"
+            android:textColor="#FFFFFFFF"
+            android:textSize="24sp"
+            android:fontFamily="@font/oplusans_watch" />
+    </LinearLayout>
+
+    <!-- 方向描述 -->
+    <TextView
+        android:id="@+id/c_dir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="北"
+        android:textColor="#FFCCCCCC"
+        android:textSize="16sp"
+        android:fontFamily="@font/oplusans_watch" />
+</LinearLayout>

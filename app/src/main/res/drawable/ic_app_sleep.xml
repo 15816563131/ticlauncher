@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="112dp" android:width="112dp" android:viewportWidth="112.0" android:viewportHeight="112.0">
+  <path android:fillColor="@drawable/ic_app_sleep_g0" android:pathData="M87.97,57.51C88.02,56.42 86.67,55.88 85.82,56.57C82.25,59.46 77.7,61.19 72.75,61.19C61.28,61.19 51.98,51.89 51.98,40.42C51.98,35.02 54.04,30.1 57.42,26.41C58.22,25.53 57.75,24.02 56.56,24C56.37,24 56.19,24 56,24C38.33,24 24,38.33 24,56C24,73.67 38.33,88 56,88C73.17,88 87.18,74.48 87.97,57.51Z">
+  </path>
+  <path android:fillColor="#ffffff" android:pathData="M78.17,32.21H71.25C70.04,32.21 69.07,31.23 69.07,30.03C69.07,28.83 70.04,27.85 71.25,27.85H82.44C83.94,27.85 85.15,29.07 85.15,30.57C85.15,31.23 84.91,31.86 84.48,32.36L76.05,41.93H82.97C84.18,41.93 85.15,42.9 85.15,44.1C85.15,45.31 84.18,46.28 82.97,46.28H71.78C70.28,46.28 69.07,45.07 69.07,43.57C69.07,42.91 69.31,42.27 69.74,41.78L78.17,32.21Z" android:fillAlpha="0.8500000238418579" android:fillType="evenOdd">
+  </path>
+</vector>

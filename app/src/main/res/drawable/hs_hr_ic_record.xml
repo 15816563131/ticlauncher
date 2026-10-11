@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  官方 HeyHeartRate res/drawable/ic_record.xml（记录页「当前心率」小图标）。
+  原作 fillColor 指向同 APK 内的渐变资源 $ic_record__0.xml，这里按 AAPT 内联渐变写法原样还原，
+  颜色值与官方一致（#ffff7c6e / #ffed4735 / #ffe83a28），不做任何改动。
+-->
+<vector android:height="24.0dip"
+    android:width="24.0dip"
+    android:viewportWidth="49.0"
+    android:viewportHeight="48.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <path android:pathData="M46.154,7.994C43.475,4.25 39.834,2.141 34.684,2.426C30.929,2.635 26.779,5.086 25.175,6.132C24.76,6.398 24.232,6.398 23.817,6.132C22.213,5.086 18.082,2.635 14.309,2.426C9.158,2.141 5.517,4.25 2.838,7.975C0.235,11.585 -2.539,20.042 8.573,31.348C15.818,38.702 21.893,43.092 23.855,44.441C24.251,44.707 24.76,44.707 25.156,44.441C27.1,43.111 33.174,38.721 40.438,31.348C51.55,20.06 48.758,11.604 46.154,7.994Z">
+        <aapt:attr name="android:fillColor">
+            <gradient android:type="linear"
+                android:startX="-7.22"
+                android:startY="17.706"
+                android:endX="16.378"
+                android:endY="49.132">
+                <item android:color="#ffff7c6e" android:offset="0.0" />
+                <item android:color="#ffed4735" android:offset="0.578" />
+                <item android:color="#ffe83a28" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

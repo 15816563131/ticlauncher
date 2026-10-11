@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  官方 com.oplus.wearable.sysui res/drawable/hey_base_item_bg.xml 的等价还原：
+    layer-list 内缩 hey_listitem_margin_horizontal = 12dp / hey_listitem_margin_vertical = 2dp
+    圆角 hey_card_default_bg_radius = 30dp
+    填充 default_background_color = #ff202124
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="12dp"
+        android:top="2dp"
+        android:right="12dp"
+        android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="30dp" />
+            <solid android:color="#ff202124" />
+        </shape>
+    </item>
+</layer-list>

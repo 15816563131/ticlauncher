@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ColorOS 手表：天气应用主界面 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingTop="14dp"
+    android:paddingBottom="10dp"
+    android:background="#FF000000">
+
+    <!-- 顶部城市 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp">
+        <ImageView
+            android:id="@+id/w_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="start|center_vertical"
+            android:src="@android:drawable/ic_media_previous"
+            android:contentDescription="@null"
+            android:alpha="0.8" />
+        <TextView
+            android:id="@+id/w_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="当前位置"
+            android:textColor="#FF9A9A9A"
+            android:textSize="12sp"
+            android:fontFamily="@font/oplusans_watch" />
+    </FrameLayout>
+
+    <Space android:layout_width="match_parent" android:layout_height="10dp" />
+
+    <!-- 天气图标 -->
+    <ImageView
+        android:id="@+id/w_icon"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/ic_app_weather"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter" />
+
+    <!-- 大温度 -->
+    <TextView
+        android:id="@+id/w_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="24°"
+        android:textColor="#FFFFFFFF"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/oplusans_watch"
+        android:includeFontPadding="false" />
+
+    <!-- 天气描述 -->
+    <TextView
+        android:id="@+id/w_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="晴"
+        android:textColor="#FFCCCCCC"
+        android:textSize="14sp"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <!-- 温度范围 / 湿度 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/w_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="18° ~ 28°"
+            android:textColor="#FF9A9A9A"
+            android:textSize="11sp"
+            android:fontFamily="@font/oplusans_watch" />
+    </LinearLayout>
+
+    <Space android:layout_width="match_parent" android:layout_height="10dp" />
+
+    <!-- 刷新按钮 -->
+    <FrameLayout
+        android:id="@+id/w_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:clickable="true"
+        android:focusable="true">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:background="@drawable/bg_card_rounded">
+            <ImageView
+                android:id="@+id/w_refresh_icon"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@android:drawable/ic_menu_revert"
+                android:contentDescription="@null" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="刷新"
+                android:textColor="#FFEDEDED"
+                android:textSize="11sp"
+                android:fontFamily="@font/oplusans_watch" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/w_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="上次更新 刚刚"
+        android:textColor="#FF555555"
+        android:textSize="10sp"
+        android:fontFamily="@font/oplusans_watch" />
+</LinearLayout>

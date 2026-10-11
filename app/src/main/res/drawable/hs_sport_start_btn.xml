@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 官方准备页开始按钮：WearCard cornerRadius=60dip + HeySports sport_color(#ff9cff1f) -->
+<shape android:shape="rectangle"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#ff9cff1f" />
+    <corners android:radius="60dp" />
+</shape>

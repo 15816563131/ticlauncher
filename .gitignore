@@ -1,0 +1,25 @@
+# 构建产物
+.gradle/
+build/
+app/build/
+build.log
+
+# 机器相关配置（含本机 SDK 路径）
+local.properties
+
+# 打包产物
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+
+# IDE
+.idea/
+*.iml
+captures/
+
+# 系统
+Thumbs.db
+desktop.ini
+.DS_Store

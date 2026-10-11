@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ColorOS 手表：运动结束页（复刻 HeySports activity_sport_end + record_main_bottom_view.xml）
+
+  官方 record_main_bottom_view.xml：
+    · WearChipButton「完成」(sport_record_finish)     左右 12dp，marginBottom 16dp
+    · TextView  「更多详情请前往手机 OHealth 查看」    bold，#ffb0b5bf，左右 20dp
+    · ImageView ic_record_bottom                       32dp，居中，marginTop 8dp，marginBottom 30dp
+  汇总数据沿用记录页的「数值 + 描述」排布；素材与文案全部取自解包后的 HeySports APK。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp">
+
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/end_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="运动已结束"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <!-- 汇总：距离 / 时长 / 心率 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
+
+                <TextView
+                    android:id="@+id/end_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.00"
+                    android:textColor="#ffffffff"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:includeFontPadding="false"
+                    android:fontFamily="@font/oplusans_watch" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="距离(公里)"
+                    android:textColor="#99ffffff"
+                    android:textSize="11sp"
+                    android:includeFontPadding="false"
+                    android:fontFamily="@font/oplusans_watch" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
+
+                <TextView
+                    android:id="@+id/end_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textColor="#ffffffff"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:includeFontPadding="false"
+                    android:fontFamily="@font/oplusans_watch" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="时长"
+                    android:textColor="#99ffffff"
+                    android:textSize="11sp"
+                    android:includeFontPadding="false"
+                    android:fontFamily="@font/oplusans_watch" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
+
+                <TextView
+                    android:id="@+id/end_heart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="#ffffffff"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:includeFontPadding="false"
+                    android:fontFamily="@font/oplusans_watch" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="心率"
+                    android:textColor="#99ffffff"
+                    android:textSize="11sp"
+                    android:includeFontPadding="false"
+                    android:fontFamily="@font/oplusans_watch" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 官方 ic_record_bottom -->
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/hs_ic_record_bottom"
+            android:contentDescription="@null" />
+
+        <!-- 官方提示文案 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="更多详情请前往手机 OHealth 查看"
+            android:textColor="#ffb0b5bf"
+            android:textSize="11sp"
+            android:fontFamily="@font/oplusans_watch" />
+
+        <!-- 完成 -->
+        <TextView
+            android:id="@+id/end_finish"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:text="完成"
+            android:textColor="#ff000000"
+            android:textSize="16sp"
+            android:background="@drawable/hs_sport_start_btn"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/oplusans_watch" />
+    </LinearLayout>
+</FrameLayout>

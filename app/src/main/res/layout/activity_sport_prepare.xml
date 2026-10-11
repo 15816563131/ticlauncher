@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ColorOS 手表：运动准备页（复刻 HeySports activity_sport_prepare.xml）
+
+  官方结构（res/layout/sport_prepare_start_common_layout.xml）：
+    · 运动名  AdaptiveContentTextView，fill_parent x 48dp，marginTop 14dp(准备页运动名间距)，
+              marginHorizontal 48dp，白字 16sp(最小 12sp)，最多 3 行
+    · 开始按钮 WearCard，fill_parent x 66dp，marginTop 78dp，marginHorizontal 24dp，
+              cornerRadius 60dp，内含 24sp 黑字「开始」
+    · 倒计时  官方为 SportCountDownView(countDownCount=3, 颜色 sport_color #ff9cff1f)，
+              这里用同尺寸同色的大号数字配合缩放动画表达，不自绘
+  素材/文案全部取自解包后的 HeySports APK。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff000000">
+
+    <!-- 运动名：marginTop 14dp / 左右 48dp / 高 48dp -->
+    <TextView
+        android:id="@+id/prep_sport_type"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:gravity="center"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:text="户外健走"
+        android:textColor="#ffffffff"
+        android:textSize="16sp"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <!-- 开始按钮：marginTop 78dp / 左右 24dp / 高 66dp / 圆角 60dp -->
+    <TextView
+        android:id="@+id/prep_btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="78dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:text="开始"
+        android:textColor="#ff000000"
+        android:textSize="24sp"
+        android:background="@drawable/hs_sport_start_btn"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <!-- 倒计时：官方 SportCountDownView，数字颜色 sport_color -->
+    <TextView
+        android:id="@+id/prep_count_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="3"
+        android:textColor="#ff9cff1f"
+        android:textSize="110sp"
+        android:textStyle="bold"
+        android:includeFontPadding="false"
+        android:visibility="gone"
+        android:fontFamily="@font/oplusans_watch" />
+
+    <!-- 返回 -->
+    <ImageView
+        android:id="@+id/prep_back"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:src="@android:drawable/ic_media_previous"
+        android:contentDescription="@null"
+        android:alpha="0.8" />
+</FrameLayout>
