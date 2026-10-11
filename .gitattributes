@@ -1,0 +1,2 @@
+# shell 脚本必须保持 LF，否则在 Termux / Linux 上无法执行
+*.sh text eol=lf
