@@ -69,6 +69,10 @@ public class WatchFaceView extends View {
 
     private SensorManager mSensorManager;
     private int mSteps = -1;
+    /** 是否允许工作：由 MainActivity 按「桌面在前台 + 当前页就是表盘」设置。 */
+    private boolean mActive;
+    /** 分钟刷新广播与步数监听当前是否已注册。 */
+    private boolean mRunning;
 
     private final BroadcastReceiver mTickReceiver = new BroadcastReceiver() {
         @Override
@@ -140,24 +144,58 @@ public class WatchFaceView extends View {
 
     // ---------- 传感器 ----------
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        getContext().registerReceiver(mTickReceiver,
-                new IntentFilter(Intent.ACTION_TIME_TICK));
-        mSensorManager = (SensorManager) getContext()
-                .getSystemService(Context.SENSOR_SERVICE);
+    /**
+     * 只有表盘真正看得见时才工作，其余时间（桌面被别的应用盖住、息屏、停在负一屏/卡片页）
+     * 一律停掉分钟刷新广播与步数监听。
+     *
+     * 这样不会丢任何数据：步数是硬件累计计数器，停掉期间照样在计数，
+     * 重新注册时立刻能读到当前值；时间本来就在 onDraw 里现取。
+     */
+    public void setActive(boolean active) {
+        if (mActive == active) {
+            return;
+        }
+        mActive = active;
+        syncUpdates();
+    }
+
+    private void syncUpdates() {
+        if (mActive) {
+            startUpdates();
+        } else {
+            stopUpdates();
+        }
+    }
+
+    private void startUpdates() {
+        if (mRunning || !isAttachedToWindow()) {
+            return;
+        }
+        mRunning = true;
+        try {
+            getContext().registerReceiver(mTickReceiver,
+                    new IntentFilter(Intent.ACTION_TIME_TICK));
+        } catch (Exception ignored) {
+        }
+        if (mSensorManager == null) {
+            mSensorManager = (SensorManager) getContext()
+                    .getSystemService(Context.SENSOR_SERVICE);
+        }
         if (mSensorManager != null) {
             Sensor step = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
             if (step != null) {
                 mSensorManager.registerListener(mStepListener, step, SensorManager.SENSOR_DELAY_NORMAL);
             }
         }
+        // 重新上岗时先按当前时间重绘一次，避免刚切回表盘时看到最长 1 分钟的旧时间
+        invalidate();
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
+    private void stopUpdates() {
+        if (!mRunning) {
+            return;
+        }
+        mRunning = false;
         try {
             getContext().unregisterReceiver(mTickReceiver);
         } catch (Exception ignored) {
@@ -165,6 +203,18 @@ public class WatchFaceView extends View {
         if (mSensorManager != null) {
             mSensorManager.unregisterListener(mStepListener);
         }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        syncUpdates();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopUpdates();
     }
 
     // ---------- 绘制 ----------

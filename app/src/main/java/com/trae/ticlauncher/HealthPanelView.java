@@ -23,7 +23,8 @@ import androidx.core.content.ContextCompat;
  *
  * 使用 XML 布局 + oppoicons drawable，所有数据更新通过 ValueAnimator 平滑过渡。
  * 步数取自 Android 标准 TYPE_STEP_COUNTER 传感器，每日零点自动归零；
- * 心率取自 PPG TYPE_HEART_RATE。只在页面可见时注册传感器监听。
+ * 心率取自 PPG TYPE_HEART_RATE。只在「桌面在前台 + 本页正显示」时注册传感器监听，
+ * 其余时间（切到别的页、被别的应用盖住、息屏）一律注销，避免 PPG 空转耗电。
  */
 public class HealthPanelView extends LinearLayout implements SensorEventListener {
 
@@ -125,7 +126,8 @@ public class HealthPanelView extends LinearLayout implements SensorEventListener
                 == PackageManager.PERMISSION_GRANTED) {
             Sensor heart = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
             if (heart != null) {
-                mSensorManager.registerListener(this, heart, SensorManager.SENSOR_DELAY_UI);
+                // NORMAL 足够读实时心率，且比 UI 档省电得多（负一屏只是概览，不需要高刷）
+                mSensorManager.registerListener(this, heart, SensorManager.SENSOR_DELAY_NORMAL);
             }
         }
     }
@@ -148,7 +150,8 @@ public class HealthPanelView extends LinearLayout implements SensorEventListener
         if (!mActive) return;
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             StepSource d = StepSource.compute(getContext(), event.values[0]);
-            if (d.valid()) {
+            // 步数传感器每走一步都会回调，值没变就不重开动画，省掉大量无谓的 ValueAnimator
+            if (d.valid() && (d.steps != mSteps || d.goal != mGoal || d.calorie != mCalorie)) {
                 animateSteps(d.steps, d.goal, d.calorie);
             }
         } else if (event.sensor.getType() == Sensor.TYPE_HEART_RATE) {

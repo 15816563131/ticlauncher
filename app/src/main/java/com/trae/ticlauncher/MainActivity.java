@@ -61,6 +61,7 @@ public class MainActivity extends Activity {
     private View mListScreen;
     private HomePager mPager;
     private HealthPanelView mHealthPanel;
+    private WatchFaceView mWatchFace;
     private WearableRecyclerView mRecyclerView;
     private RadialAppView mRadial;
 
@@ -142,29 +143,25 @@ public class MainActivity extends Activity {
             mPager.setOnPageChangedListener(new HomePager.OnPageChangedListener() {
                 @Override
                 public void onPageChanged(int page) {
-                    if (mHealthPanel != null) {
-                        mHealthPanel.setActive(page == 0);
-                    }
                     if (page == 0) {
                         ensureBodySensors();
                     }
+                    updatePageActivity();
                 }
             });
         }
-        if (mHealthPanel != null) {
-            mHealthPanel.setActive(mPager == null || mPager.getPage() == 0);
-        }
+        updatePageActivity();
 
         // 表盘主页：点按进入应用列表，长按换表盘
-        View face = findViewById(R.id.watch_face);
-        if (face != null) {
-            face.setOnClickListener(new View.OnClickListener() {
+        mWatchFace = findViewById(R.id.watch_face);
+        if (mWatchFace != null) {
+            mWatchFace.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showList(true);
                 }
             });
-            face.setOnLongClickListener(new View.OnLongClickListener() {
+            mWatchFace.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     open(WatchFaceActivity.class);
@@ -272,6 +269,7 @@ public class MainActivity extends Activity {
         super.onResume();
         mForeground = true;
         mLaunchingApp = false;
+        updatePageActivity();
         Log.d(TAG, "onResume showingList=" + mShowingList);
         refreshApps();
         if (mQuickController != null) {
@@ -304,6 +302,8 @@ public class MainActivity extends Activity {
         super.onPause();
         mForeground = false;
         mPauseAt = SystemClock.uptimeMillis();
+        // 桌面不在前台（切到别的应用 / 息屏）：立刻停掉所有传感器与定时刷新
+        updatePageActivity();
         if (mQuickController != null) {
             mQuickController.onPause();
         }
@@ -327,6 +327,26 @@ public class MainActivity extends Activity {
         return mShowingList && listMode() == AppListAdapter.MODE_STAR;
     }
 
+    /**
+     * 统一决定「哪一页可以干活」。
+     *
+     * 只有当桌面在前台（亮屏、没被别的应用盖住）且该页正显示时，才允许它跑传感器和定时刷新；
+     * 其余情况全部停掉。这不会削减任何功能或数据：
+     *  · 步数是硬件累计计数器，停掉期间照常计数，恢复时立刻读到最新值；
+     *  · 心跳卡片只是实时概览，重新可见时马上重新采样；
+     *  · 时间在 onDraw 里现取，不依赖后台定时器。
+     */
+    private void updatePageActivity() {
+        boolean homeVisible = mForeground && !mShowingList;
+        int page = mPager == null ? HomePager.PAGE_WATCH_FACE : mPager.getPage();
+        if (mWatchFace != null) {
+            mWatchFace.setActive(homeVisible && page == HomePager.PAGE_WATCH_FACE);
+        }
+        if (mHealthPanel != null) {
+            mHealthPanel.setActive(homeVisible && page == 0);
+        }
+    }
+
     /** 负一屏的心率卡片需要 BODY_SENSORS，第一次滑到该页时申请一次。 */
     private void ensureBodySensors() {
         if (checkSelfPermission(Manifest.permission.BODY_SENSORS)
@@ -339,9 +359,9 @@ public class MainActivity extends Activity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // 授权后重新注册健康面板传感器（步数 + 心率）
-        if (mHealthPanel != null && mPager != null && mPager.getPage() == 0) {
+        if (mHealthPanel != null) {
             mHealthPanel.setActive(false);
-            mHealthPanel.setActive(true);
+            updatePageActivity();
         }
     }
 
@@ -354,6 +374,7 @@ public class MainActivity extends Activity {
             mPager.setPage(HomePager.PAGE_WATCH_FACE, false);
         }
         mShowingList = false;
+        updatePageActivity();
         if (!animate) {
             mHomeScreen.setVisibility(View.VISIBLE);
             mHomeScreen.setAlpha(1f);
@@ -383,6 +404,8 @@ public class MainActivity extends Activity {
             return;
         }
         mShowingList = true;
+        // 应用列表打开期间首页不可见，两页的传感器与定时刷新全部停掉
+        updatePageActivity();
         if (!animate) {
             mListScreen.setVisibility(View.VISIBLE);
             mListScreen.setAlpha(1f);
