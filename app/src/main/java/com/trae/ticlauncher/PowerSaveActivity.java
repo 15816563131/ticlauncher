@@ -75,6 +75,8 @@ public class PowerSaveActivity extends Activity {
                 boolean on = !isSleepEnabled();
                 prefs().edit().putBoolean(KEY_SLEEP_ENABLED, on).apply();
                 refreshSleep();
+                // 立即重新安排休眠闹钟（开关打开就排下一段，关掉就恢复 WLAN）
+                SleepModeReceiver.reschedule(PowerSaveActivity.this);
             }
         });
 
@@ -195,6 +197,7 @@ public class PowerSaveActivity extends Activity {
                         .putInt(start ? KEY_SLEEP_START : KEY_SLEEP_END, hour * 60 + minute)
                         .apply();
                 refreshSleep();
+                SleepModeReceiver.reschedule(PowerSaveActivity.this);
             }
         }, cur / 60, cur % 60, true).show();
     }

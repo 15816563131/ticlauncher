@@ -328,5 +328,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!-- 自动休眠调度：到设定时间关 WLAN，到结束时间自动恢复 -->
+        <receiver
+            android:name=".SleepModeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.trae.ticlauncher.action.SLEEP_TICK" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

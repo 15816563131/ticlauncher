@@ -224,6 +224,9 @@ public class MainActivity extends Activity {
         }
 
         applyListMode();
+
+        // 桌面启动时校正一次「自动休眠」：保证闹钟链存在，进程被杀 / 重启后能自愈
+        SleepModeReceiver.reschedule(this);
     }
 
     // ---------- 两屏切换 ----------
