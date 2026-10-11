@@ -17,6 +17,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -84,6 +85,7 @@ public class MainActivity extends Activity {
     private List<AppEntry> mCachedApps;
     private boolean mAppsDirty = true;
     private BroadcastReceiver mPackageReceiver;
+    private BroadcastReceiver mScreenReceiver;
     private long mPauseAt;
 
     // ---- 下拉控制中心（跟手 + 渐进毛玻璃） ----
@@ -194,6 +196,7 @@ public class MainActivity extends Activity {
         mRadial = findViewById(R.id.radial_list);
         mRadial.bind(null, mAppClick, mAppLongClick);
         registerPackageReceiver();
+        registerScreenReceiver();
 
         int dp = Math.round(getResources().getDisplayMetrics().density * 34);
         mRecyclerView.setPadding(0, dp, 0, Math.round(dp * 1.35f));
@@ -337,7 +340,7 @@ public class MainActivity extends Activity {
      *  · 时间在 onDraw 里现取，不依赖后台定时器。
      */
     private void updatePageActivity() {
-        boolean homeVisible = mForeground && !mShowingList;
+        boolean homeVisible = mForeground && !mShowingList && isScreenOn();
         int page = mPager == null ? HomePager.PAGE_WATCH_FACE : mPager.getPage();
         if (mWatchFace != null) {
             mWatchFace.setActive(homeVisible && page == HomePager.PAGE_WATCH_FACE);
@@ -345,6 +348,18 @@ public class MainActivity extends Activity {
         if (mHealthPanel != null) {
             mHealthPanel.setActive(homeVisible && page == 0);
         }
+    }
+
+    /**
+     * 屏幕是否亮着。
+     *
+     * 注意：这台手表的 HOME 桌面在息屏时**不会**收到 onPause（实测息屏后
+     * mResumedActivity 仍是 MainActivity），所以光靠 onResume/onPause 判断可见性是不够的，
+     * 必须显式看屏幕状态，否则息屏后传感器会整夜跑着。
+     */
+    private boolean isScreenOn() {
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        return pm == null || pm.isInteractive();
     }
 
     /** 负一屏的心率卡片需要 BODY_SENSORS，第一次滑到该页时申请一次。 */
@@ -532,6 +547,23 @@ public class MainActivity extends Activity {
         }
     }
 
+    /** 熄屏 / 亮屏时立刻重新决定各页是否该工作（HOME 桌面息屏不会走 onPause）。 */
+    private void registerScreenReceiver() {
+        mScreenReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context c, Intent i) {
+                updatePageActivity();
+            }
+        };
+        IntentFilter f = new IntentFilter();
+        f.addAction(Intent.ACTION_SCREEN_OFF);
+        f.addAction(Intent.ACTION_SCREEN_ON);
+        try {
+            registerReceiver(mScreenReceiver, f);
+        } catch (Exception ignored) {
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -541,6 +573,13 @@ public class MainActivity extends Activity {
             } catch (Exception ignored) {
             }
             mPackageReceiver = null;
+        }
+        if (mScreenReceiver != null) {
+            try {
+                unregisterReceiver(mScreenReceiver);
+            } catch (Exception ignored) {
+            }
+            mScreenReceiver = null;
         }
     }
 

@@ -113,6 +113,42 @@ adb shell svc power stayon true
 国内访问 github.com / raw.githubusercontent.com 时通时断。
 `tools/autosync.ps1` 每 10 分钟跑一次，失败会自己记日志并在下一轮重试，不需要人工干预。
 
+**这台机器上的实测结果**（`Test-NetConnection`）：
+
+```
+github.com          :443  -> False   ← git push/pull 走的域名，被墙
+api.github.com      :443  -> True    ← 可用
+codeload.github.com :443  -> True    ← 可用
+```
+
+也就是说 `git push` 失败时，可以用 **GitHub 的 Git Data API** 走 `api.github.com` 把提交推上去
+（blobs → tree → commit → 更新 ref）。本地那个提交和 API 生成的提交内容相同但 SHA 不同，
+下一次成功的 `git pull --rebase` 会把这个空提交自动丢掉。
+
+### 14. 息屏时桌面**不会**收到 onPause
+
+这是本项目最容易踩的一个坑，直接影响耗电：
+
+```
+adb shell input keyevent KEYCODE_SLEEP
+adb shell dumpsys activity activities | grep ResumedActivity
+  → 仍是 com.trae.ticlauncher/.MainActivity
+```
+
+也就是说手表灭屏后，HOME 桌面依然处于 **resumed** 状态，`onPause` 根本不会来。
+所以**绝对不能只靠 `onResume` / `onPause` 判断「桌面是否可见」**，
+否则息屏后传感器（尤其是 PPG 心率）会整夜跑着。
+
+正确做法（已实现于 `MainActivity.updatePageActivity()`）：
+
+- 判断条件用 `mForeground && !mShowingList && isScreenOn()`，
+  其中 `isScreenOn()` = `PowerManager.isInteractive()`；
+- 另外动态注册 `ACTION_SCREEN_OFF` / `ACTION_SCREEN_ON` 广播，
+  亮灭屏时立刻重新计算一次。
+
+（注意：`input keyevent 26` 是**切换**开关，做息屏/亮屏测试要用
+`KEYCODE_SLEEP` / `KEYCODE_WAKEUP`，否则会把测试结论搞反。）
+
 ---
 
 ## 三、代码架构
@@ -177,6 +213,30 @@ settle 动画时长按距离自适应（140~320ms）；首尾到边界弹回，*
 - 数值变化一律用 `ValueAnimator` 平滑过渡，不要瞬间切换
 - 传感器注册/注销严格成对写在 `onResume` / `onPause`，用 `SENSOR_DELAY_NORMAL`
 - 只在真正测量时加 `FLAG_KEEP_SCREEN_ON`
+
+### 省电设计（核心原则：不看得见就不干活）
+
+统一由 `MainActivity.updatePageActivity()` 决定「哪一页可以干活」，条件为
+**桌面在前台 + 没被别的应用盖住 + 屏幕亮着 + 该页正显示**。不满足时：
+
+| 组件 | 不可见时 | 会不会丢数据 |
+|---|---|---|
+| `WatchFaceView` | 注销 `TYPE_STEP_COUNTER` + `ACTION_TIME_TICK` 广播 | 不会。步数是硬件累计计数器，恢复时立刻读到当前值；时间在 `onDraw` 里现取 |
+| `HealthPanelView` | 注销 `TYPE_STEP_COUNTER` + `TYPE_HEART_RATE`(PPG) | 不会。心率卡片是实时概览，重新可见时马上重新采样 |
+
+实测验证（`dumpsys sensorservice` 里看 ticlauncher 持有的活跃传感器）：
+
+| 场景 | 结果 |
+|---|---|
+| 表盘页 · 亮屏 | `Step Counter` 活跃（预期） |
+| 负一屏 · 亮屏 | `Heart Rate PPG` + `Step Counter` 活跃（预期） |
+| 应用列表 / 设置在前台 | 无 |
+| 息屏 7 秒后 | **无** |
+| 别的应用在前台 | **无** |
+| 重新亮屏 / 返回桌面 | 自动恢复，无需重启 |
+
+另外：`HealthPanelView` 的步数回调做了「值没变就不重开 ValueAnimator」的判断，
+避免每走一步都新建两个动画。
 
 ---
 
