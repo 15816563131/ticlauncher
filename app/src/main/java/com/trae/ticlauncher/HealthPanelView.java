@@ -253,6 +253,17 @@ public class HealthPanelView extends LinearLayout implements SensorEventListener
             if (d.valid() && (d.steps != mSteps || d.goal != mGoal || d.calorie != mCalorie)) {
                 animateSteps(d.steps, d.goal, d.calorie);
             }
+        } else if (event.sensor.getType() == Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT) {
+            // 离腕检测（Android 标准语义）：values[0] == 1.0 表示离腕，0.0 表示佩戴。
+            boolean onBody = event.values != null && event.values.length > 0
+                    && event.values[0] < 0.5f;
+            if (onBody == mOnBody) return;
+            mOnBody = onBody;
+            if (onBody) {
+                startHrByInterval();   // 重新佩戴：按间隔恢复测量
+            } else {
+                stopHrImmediate();     // 离腕：立即停 PPG、显示「未佩戴」
+            }
         } else if (event.sensor.getType() == Sensor.TYPE_HEART_RATE) {
             int bpm = Math.round(event.values[0]);
             if (bpm > 0 && bpm != mHeart) {
