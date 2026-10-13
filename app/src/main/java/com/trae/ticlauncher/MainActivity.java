@@ -87,6 +87,8 @@ public class MainActivity extends Activity {
     private BroadcastReceiver mPackageReceiver;
     private BroadcastReceiver mScreenReceiver;
     private long mPauseAt;
+    /** 本进程内只主动申请一次 BODY_SENSORS，避免每次滑到负一屏都弹权限窗抢手势。 */
+    private boolean mBodySensorsPrompted = false;
 
     // ---- 下拉控制中心（跟手 + 渐进毛玻璃） ----
     private View mQuickPanel;
@@ -365,8 +367,10 @@ public class MainActivity extends Activity {
         return pm == null || pm.isInteractive();
     }
 
-    /** 负一屏的心率卡片需要 BODY_SENSORS，第一次滑到该页时申请一次。 */
+    /** 负一屏的心率卡片需要 BODY_SENSORS，进入该页时申请一次（本进程只弹一次，避免抢手势）。 */
     private void ensureBodySensors() {
+        if (mBodySensorsPrompted) return;
+        mBodySensorsPrompted = true;
         if (checkSelfPermission(Manifest.permission.BODY_SENSORS)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.BODY_SENSORS}, REQ_BODY_SENSORS);
@@ -636,6 +640,8 @@ public class MainActivity extends Activity {
         Intent i = new Intent(Intent.ACTION_MAIN);
         i.addCategory(Intent.CATEGORY_LAUNCHER);
         i.setComponent(e.component);
+        // 限定在本应用内启动，避免同名 HeyTap action 被 OPPO 官方 APK 抢走（见 HANDOVER 4.3）。
+        i.setPackage(e.component.getPackageName());
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         try {

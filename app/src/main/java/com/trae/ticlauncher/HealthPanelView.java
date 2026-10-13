@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,27 @@ public class HealthPanelView extends LinearLayout implements SensorEventListener
     private ValueAnimator mHeartAnim;
     private ValueAnimator mCalorieAnim;
 
+    // ---------- P1-7：负一屏心率可调间隔 + 离腕停测 ----------
+
+    /** 非连续模式下一次突发测量的最长时长（ms），到点主动停 PPG 省电。 */
+    private static final long HR_BURST_MS = 12000L;
+
+    private Sensor mHeartSensor;
+    private Sensor mOffBodySensor;
+    /** 佩戴状态：默认佩戴，等离腕传感器首次上报告知；设备不支持时恒为 true。 */
+    private boolean mOnBody = true;
+    /** 负一屏心率刷新（秒）：0=连续，30/60=按间隔突发，-1=关闭。 */
+    private int mHrPanelInterval = 0;
+    /** 当前是否处于一次突发测量中。 */
+    private boolean mHrBursting = false;
+    private Handler mHrHandler;
+    private final Runnable mHrEndBurst = new Runnable() {
+        @Override public void run() { endHrBurst(true); }
+    };
+    private final Runnable mHrReschedule = new Runnable() {
+        @Override public void run() { startHrBurst(); }
+    };
+
     public HealthPanelView(Context context) {
         this(context, null);
     }
@@ -70,6 +92,8 @@ public class HealthPanelView extends LinearLayout implements SensorEventListener
         mValHeart.setText("--");
         mValCalorie.setText("--");
         mProgSteps.setProgress(0);
+
+        mHrHandler = new Handler();
     }
 
     /** 只在本页可见时才工作，避免长期耗电。 */
@@ -122,17 +146,92 @@ public class HealthPanelView extends LinearLayout implements SensorEventListener
         if (step != null) {
             mSensorManager.registerListener(this, step, SensorManager.SENSOR_DELAY_NORMAL);
         }
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.BODY_SENSORS)
-                == PackageManager.PERMISSION_GRANTED) {
-            Sensor heart = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-            if (heart != null) {
-                // NORMAL 足够读实时心率，且比 UI 档省电得多（负一屏只是概览，不需要高刷）
-                mSensorManager.registerListener(this, heart, SensorManager.SENSOR_DELAY_NORMAL);
-            }
+
+        // 离腕检测传感器（API 24+）：拿不到就退化为「一直佩戴」。
+        mOffBodySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT);
+        if (mOffBodySensor != null) {
+            mSensorManager.registerListener(this, mOffBodySensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
+        // 心率传感器（需 BODY_SENSORS 权限）；按设置里的间隔决定注册方式。
+        mHeartSensor = (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.BODY_SENSORS)
+                == PackageManager.PERMISSION_GRANTED)
+                ? mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE) : null;
+
+        mHrPanelInterval = getContext().getSharedPreferences(SettingsActivity.PREFS, Context.MODE_PRIVATE)
+                .getInt(SettingsActivity.KEY_HR_PANEL_INTERVAL, 0);
+
+        startHrByInterval();
+    }
+
+    /** 按负一屏心率间隔设置启动测量：连续 / 突发 / 关闭。 */
+    private void startHrByInterval() {
+        if (mHeartSensor == null || !mOnBody) return;
+        if (mHrHandler != null) {
+            mHrHandler.removeCallbacks(mHrEndBurst);
+            mHrHandler.removeCallbacks(mHrReschedule);
+        }
+        if (mHrPanelInterval < 0) {
+            // 关闭：不注册心率，显示占位。
+            mValHeart.setText("--");
+            mValHeart.setAlpha(1f);
+            return;
+        }
+        mValHeart.setAlpha(1f);
+        if (mHrPanelInterval == 0) {
+            // 连续：一直注册，NORMAL 档足够且省电（负一屏只是概览）。
+            mSensorManager.registerListener(this, mHeartSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        } else {
+            startHrBurst();
         }
     }
 
+    /** 启动一次突发测量（测一阵→停一阵）。 */
+    private void startHrBurst() {
+        if (mHeartSensor == null || !mOnBody || !mActive) return;
+        mHrBursting = true;
+        mSensorManager.registerListener(this, mHeartSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        if (mHrHandler != null) {
+            mHrHandler.removeCallbacks(mHrEndBurst);
+            mHrHandler.postDelayed(mHrEndBurst, HR_BURST_MS);
+        }
+    }
+
+    /** 结束一次突发测量。reschedule=true 时按间隔排下一轮。 */
+    private void endHrBurst(boolean reschedule) {
+        mHrBursting = false;
+        if (mHrHandler != null) {
+            mHrHandler.removeCallbacks(mHrEndBurst);
+            mHrHandler.removeCallbacks(mHrReschedule);
+        }
+        if (mSensorManager != null && mHeartSensor != null) {
+            mSensorManager.unregisterListener(this, mHeartSensor);
+        }
+        if (reschedule && mActive && mOnBody && mHeartSensor != null
+                && mHrPanelInterval > 0 && mHrHandler != null) {
+            mHrHandler.postDelayed(mHrReschedule, mHrPanelInterval * 1000L);
+        }
+    }
+
+    /** 离腕：立刻停 PPG 并显示「未佩戴」。 */
+    private void stopHrImmediate() {
+        mHrBursting = false;
+        if (mHrHandler != null) {
+            mHrHandler.removeCallbacks(mHrEndBurst);
+            mHrHandler.removeCallbacks(mHrReschedule);
+        }
+        if (mSensorManager != null && mHeartSensor != null) {
+            mSensorManager.unregisterListener(this, mHeartSensor);
+        }
+        mValHeart.setText("未佩戴");
+        mValHeart.setAlpha(0.4f);
+    }
+
     private void unregister() {
+        if (mHrHandler != null) {
+            mHrHandler.removeCallbacks(mHrEndBurst);
+            mHrHandler.removeCallbacks(mHrReschedule);
+        }
         if (mSensorManager != null) {
             mSensorManager.unregisterListener(this);
         }

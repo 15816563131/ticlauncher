@@ -143,6 +143,8 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         Intent i = new Intent(Intent.ACTION_MAIN);
         i.addCategory(Intent.CATEGORY_LAUNCHER);
         i.setComponent(app.component);
+        // 限定在本应用内启动，避免同名 HeyTap action 被 OPPO 官方 APK 抢走（见 HANDOVER 4.3）。
+        i.setPackage(app.component.getPackageName());
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         try {

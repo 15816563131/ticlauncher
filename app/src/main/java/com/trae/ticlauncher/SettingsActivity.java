@@ -12,8 +12,14 @@ public class SettingsActivity extends Activity {
 
     public static final String PREFS = "launcher";
     public static final String KEY_LIST_STYLE = "applist_style";
+    /** 心率页自动测量间隔（分钟）：0=连续，1/5/10=按间隔突发，-1=关闭。 */
+    public static final String KEY_HR_INTERVAL = "hr_auto_interval";
+    /** 负一屏心率刷新（秒）：0=连续，30/60=按间隔突发，-1=关闭。 */
+    public static final String KEY_HR_PANEL_INTERVAL = "hr_panel_interval";
 
     private TextView mListStyleText;
+    private TextView mHrIntervalText;
+    private TextView mHrPanelText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,18 +82,91 @@ public class SettingsActivity extends Activity {
         findViewById(R.id.btn_system_settings).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) { openSystemSettings(); }
         });
+
+        // 健康 → 心率自动测量间隔（点击循环：连续 / 1 分钟 / 5 分钟 / 10 分钟 / 关闭）
+        mHrIntervalText = findViewById(R.id.hr_interval_text);
+        updateHrIntervalText();
+        findViewById(R.id.btn_hr_interval).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                int cur = getSharedPreferences(PREFS, MODE_PRIVATE)
+                        .getInt(KEY_HR_INTERVAL, 0);
+                int next;
+                switch (cur) {
+                    case 0: next = 1; break;
+                    case 1: next = 5; break;
+                    case 5: next = 10; break;
+                    case 10: next = -1; break;
+                    default: next = 0; break;
+                }
+                getSharedPreferences(PREFS, MODE_PRIVATE).edit()
+                        .putInt(KEY_HR_INTERVAL, next).apply();
+                updateHrIntervalText();
+                Toast.makeText(SettingsActivity.this, "心率自动测量：" + hrIntervalLabel(next),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // 健康 → 负一屏心率刷新（点击循环：连续 / 30 秒 / 1 分钟 / 关闭）
+        mHrPanelText = findViewById(R.id.hr_panel_text);
+        updateHrPanelText();
+        findViewById(R.id.btn_hr_panel).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                int cur = getSharedPreferences(PREFS, MODE_PRIVATE)
+                        .getInt(KEY_HR_PANEL_INTERVAL, 0);
+                int next;
+                switch (cur) {
+                    case 0: next = 30; break;
+                    case 30: next = 60; break;
+                    case 60: next = -1; break;
+                    default: next = 0; break;
+                }
+                getSharedPreferences(PREFS, MODE_PRIVATE).edit()
+                        .putInt(KEY_HR_PANEL_INTERVAL, next).apply();
+                updateHrPanelText();
+                Toast.makeText(SettingsActivity.this, "负一屏心率：" + hrPanelLabel(next),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private int currentStyle() {
-        return getSharedPreferences(PREFS, MODE_PRIVATE)
-                .getInt(KEY_LIST_STYLE, AppListAdapter.MODE_LIST);
+    private static String hrIntervalLabel(int min) {
+        if (min < 0) return "关闭";
+        if (min == 0) return "连续";
+        return min + " 分钟";
+    }
+
+    private static String hrPanelLabel(int sec) {
+        if (sec < 0) return "关闭";
+        if (sec == 0) return "连续";
+        if (sec < 60) return sec + " 秒";
+        return (sec / 60) + " 分钟";
+    }
+
+    private void updateHrIntervalText() {
+        if (mHrIntervalText != null) {
+            int cur = getSharedPreferences(PREFS, MODE_PRIVATE).getInt(KEY_HR_INTERVAL, 0);
+            mHrIntervalText.setText(hrIntervalLabel(cur));
+        }
+    }
+
+    private void updateHrPanelText() {
+        if (mHrPanelText != null) {
+            int cur = getSharedPreferences(PREFS, MODE_PRIVATE).getInt(KEY_HR_PANEL_INTERVAL, 0);
+            mHrPanelText.setText(hrPanelLabel(cur));
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // 从「应用视图」弹窗返回后刷新当前视图名
         updateListStyleButton();
+        updateHrIntervalText();
+        updateHrPanelText();
+    }
+
+    private int currentStyle() {
+        return getSharedPreferences(PREFS, MODE_PRIVATE)
+                .getInt(KEY_LIST_STYLE, AppListAdapter.MODE_LIST);
     }
 
     private void updateListStyleButton() {

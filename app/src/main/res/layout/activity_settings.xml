@@ -184,6 +184,94 @@
                 android:fontFamily="@font/oplusans_watch" />
         </LinearLayout>
 
+        <!-- 健康 → 心率自动测量（间隔：连续 / 1 分钟 / 5 分钟 / 10 分钟 / 关闭） -->
+        <LinearLayout
+            android:id="@+id/btn_hr_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="4dp"
+            android:minHeight="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:background="@drawable/hs_setting_item_bg"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_app_heartrate"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:includeFontPadding="false"
+                android:text="心率自动测量"
+                android:textColor="#FFFFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/oplusans_watch" />
+
+            <TextView
+                android:id="@+id/hr_interval_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:textColor="#FFB0B5BF"
+                android:textSize="14sp"
+                android:fontFamily="@font/oplusans_watch" />
+        </LinearLayout>
+
+        <!-- 健康 → 负一屏心率刷新（连续 / 30 秒 / 1 分钟 / 关闭） -->
+        <LinearLayout
+            android:id="@+id/btn_hr_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="4dp"
+            android:minHeight="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:background="@drawable/hs_setting_item_bg"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_app_heartrate"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:includeFontPadding="false"
+                android:text="负一屏心率"
+                android:textColor="#FFFFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/oplusans_watch" />
+
+            <TextView
+                android:id="@+id/hr_panel_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:textColor="#FFB0B5BF"
+                android:textSize="14sp"
+                android:fontFamily="@font/oplusans_watch" />
+        </LinearLayout>
+
         <!-- 快捷功能 → 控制中心 -->
         <LinearLayout
             android:id="@+id/btn_quick"
