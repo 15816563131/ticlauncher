@@ -56,6 +56,7 @@
 
 ### 2.2 健康功能（1:1 复刻 ColorOS 原生）
 - [x] **心率测量**（HeartRateActivity）：点击/进入自动测量，心形缩放动画，数值平滑过渡
+- [x] **心率离腕检测 + 自动测量间隔**（2026-10-13）：注册 `low_latency_offbody_detect`，离腕停 PPG 显「未佩戴」；设置可选 连续/1/5/10 分钟/关闭，非连续用 AlarmManager 脉冲
 - [x] **心率记录/统计**（HrRecordActivity）：左滑心率页进入
 - [x] **运动主流程**（SportPrepareActivity → SportRecordActivity → SportEndActivity）：3 秒倒计时 → 记录页 → 结束摘要
 - [x] **睡眠**（SleepActivity）
@@ -117,7 +118,7 @@ if (mDragDistance < -w / 4f) {
 
 ### 🔴 P0 - 用户核心新需求
 
-#### 2. 心率：离腕不检测 + 自动测量 + 可调节间隔
+#### 2. 心率：离腕不检测 + 自动测量 + 可调节间隔 ✅ 已实现（2026-10-13，待真机验证）
 **现状**：`HeartRateActivity` 只支持手动点击或进页面自动测量，**完全没用离腕检测**（传感器 `low_latency_offbody_detect` 已存在但代码里没注册）。
 
 **需要实现**：
@@ -126,6 +127,12 @@ if (mDragDistance < -w / 4f) {
 - 检测到佩戴 → 按设定间隔自动启动 PPG 采样
 - 设置界面：间隔时间可选（如 1 分钟 / 5 分钟 / 10 分钟）
 - 间隔定时器用 `AlarmManager.setExactAndAllowWhileIdle`，不要用 postDelayed
+
+**实现（2026-10-13）**：
+- `HeartRateActivity.java` 已重写：注册 `low_latency_offbody_detect`；离腕立即 `showOffBody()` 停 PPG、心形 alpha 0.35；佩戴自动 `startBurst(true)` 续测。
+- 自动间隔：`KEY_HR_INTERVAL`（分钟，0=连续/1/5/10/ -1=关闭）存 `SettingsActivity.PREFS`；非连续模式按 `AlarmManager.setExactAndAllowWhileIdle` 排脉冲（`scheduleHrTick`），突发最长 `BURST_MS=12s` 后 `endBurst(true)` 续测。
+- 设置页 `activity_settings.xml` 新增「心率自动测量」条目（`btn_hr_interval` / `hr_interval_text`），`SettingsActivity.java` 点击循环 0→1→5→10→-1。
+- ⚠️ **离腕传感器语义坑（已修正）**：`TYPE_LOW_LATENCY_OFFBODY_DETECT` 的 `values[0]` 是 **1.0=离腕、0.0=佩戴**（与直觉相反），所以 `onBody = values[0] < 0.5f`。最初写成 `>= 0.5` 是反的，会把「戴着」判成「离腕」。
 
 #### 3. 健康应用进不去
 **可能原因（需排查）**：
@@ -167,10 +174,17 @@ if (mDragDistance < -w / 4f) {
 - 给所有二级 Activity 加上「左滑 = finish()」的手势（或者改 HeartRateActivity 左滑为返回，长按或点按钮进记录页）
 - 确保从健康应用返回后，HomePager 能回到正确的页面
 
-#### 7. 负一屏心率卡片自动测量间隔
+#### 7. 负一屏心率卡片自动测量间隔 ✅ 已实现（2026-10-13，待真机验证）
 **位置**：`HealthPanelView.java`
 **现状**：只要负一屏可见，就一直注册 PPG 传感器，实时采样。
 **需要**：可以调节刷新间隔（比如 30 秒 / 1 分钟 / 关闭），离腕时停止。
+
+**实现（2026-10-13）**：
+- `HealthPanelView.java` 消费 `KEY_HR_PANEL_INTERVAL`（秒：0=连续 / 30 / 60 / -1=关闭）。
+- 注册 `low_latency_offbody_detect`；`onSensorChanged` 里处理离腕（停 PPG、显「未佩戴」、心形/文字 alpha 0.4）与重新佩戴（按间隔恢复测量）。
+- 连续模式常注册 PPG；突发模式按 `HR_BURST_MS=12s` 测一阵→停一阵→`postDelayed` 续测（用 Handler，视图只在可见时存活，比 AlarmManager 轻）。
+- 设置页新增「负一屏心率」条目（`btn_hr_panel` / `hr_panel_text`），点击循环 0→30→60→-1。
+- 离腕语义与 P0-2 一致（`values[0] < 0.5f` = 佩戴）。
 
 ---
 
@@ -242,6 +256,7 @@ boolean homeVisible = mForeground && !mShowingList && isScreenOn();
 12. **exported=false 的 Activity 无法 adb 直接启动**：调试时临时改 true，验证完改回去。
 13. **关 Wi-Fi 会被系统撤销**：Wear OS 的 WearWifiMediator 强制保持网络，只有飞行模式是它认的。
 14. **低电量测试前确认电量充足**：设备会无预警死机。
+15. **离腕传感器语义相反**：`TYPE_LOW_LATENCY_OFFBODY_DETECT` 的 `values[0]` 是 **1.0=离腕、0.0=佩戴**（`onBody = value < 0.5f`）。写成 `>= 0.5 == 佩戴` 是反的，会让「戴着」被误判成「离腕」、离腕时反而继续测。两种心率路径（HeartRateActivity + HealthPanelView）都已按正确语义写。
 
 ---
 
@@ -260,11 +275,11 @@ boolean homeVisible = mForeground && !mShowingList && isScreenOn();
 
 | 优先级 | 任务 | 预计工作量 |
 |---|---|---|
-| P0 | 修 HomePager 翻页方向 bug | 30 分钟 |
-| P0 | 心率页加离腕检测 + 自动测量间隔 | 2-3 小时 |
+| P0 | 修 HomePager 翻页方向 bug | ✅ 已证实为误判，无需改（重编译即可） |
+| P0 | 心率页加离腕检测 + 自动测量间隔 | ✅ 已实现（待真机验证） |
 | P0 | 排查并修复健康应用进不去问题 | 1 小时 |
 | P0 | 修复应用列表图标重复 | 30 分钟 |
 | P1 | 所有二级 Activity 加左滑返回手势 | 1 小时 |
-| P1 | 负一屏心率卡片可调节刷新间隔 | 1 小时 |
+| P1 | 负一屏心率卡片可调节刷新间隔 | ✅ 已实现（待真机验证） |
 | P2 | 应用商店 / 第三方 APK 安装页 | 按需 |
 | P2 | 星图长按编辑应用 | 按需 |
